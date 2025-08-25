@@ -1,10 +1,8 @@
 FROM traccar/traccar:latest
 
-# Render.com requires the app to bind to $PORT
-ENV PORT=8082
+# Render.com will assign a port via $PORT environment variable
+# But Traccar expects to run on port 8082, so we'll use that
+EXPOSE 8082
 
-# Expose the port that Render expects
-EXPOSE $PORT
-
-# Override the default command - Traccar runs as java directly
-CMD ["java", "-Dconfig.override.web.port=${PORT}", "-Xms512m", "-Xmx512m", "-Djava.net.preferIPv4Stack=true", "-jar", "/opt/traccar/tracker-server.jar", "/opt/traccar/conf/traccar.xml"]
+# Use the default Traccar startup command
+# Don't override anything - let Traccar start normally
